@@ -1,20 +1,31 @@
 import React from "react";
-import { Text, View, Image } from "react-native";
+import { StyleSheet } from "react-native";
 import { Tabs } from "expo-router";
-import { tabIcons } from "../../constant/tab-icons";
+import { tabIcons, colors } from "../../constant";
+import TabBarIcon from "@/components/tab-bar-icon";
 
 const Layout = () => {
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        tabBarStyle: styles.tabBarStyle,
+        tabBarActiveTintColor: colors.accent,
+        tabBarShowLabel: false,
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
           headerShown: false,
-          tabBarIcon: () => (
-            <View>
-              <Image source={tabIcons.home.default} className="w-6 h-6" />
-            </View>
+          tabTitle: "none",
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon
+              focused={focused}
+              title="Home"
+              icon={tabIcons.home.default}
+              activeIcon={tabIcons.home.active}
+            />
           ),
         }}
       />
@@ -23,10 +34,13 @@ const Layout = () => {
         options={{
           title: "Search",
           headerShown: false,
-          tabBarIcon: () => () => (
-            <View>
-              <Image source={tabIcons.search.default} className="w-6 h-6" />
-            </View>
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon
+              focused={focused}
+              title="Search"
+              icon={tabIcons.search.default}
+              activeIcon={tabIcons.search.active}
+            />
           ),
         }}
       />
@@ -35,10 +49,13 @@ const Layout = () => {
         options={{
           title: "Watchlist",
           headerShown: false,
-          tabBarIcon: () => () => (
-            <View>
-              <Image source={tabIcons.watchlist.default} className="w-6 h-6" />
-            </View>
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon
+              focused={focused}
+              title="Watchlist"
+              icon={tabIcons.watchlist.default}
+              activeIcon={tabIcons.watchlist.active}
+            />
           ),
         }}
       />
@@ -47,3 +64,13 @@ const Layout = () => {
 };
 
 export default Layout;
+
+const styles = StyleSheet.create({
+  tabBarStyle: {
+    backgroundColor: colors.primary,
+    borderTopWidth: 3,
+    borderTopColor: colors.accent,
+    height: 70,
+    paddingBottom: 10,
+  },
+});
