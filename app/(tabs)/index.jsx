@@ -1,14 +1,76 @@
-import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import { useState } from "react";
+import { Text, View, FlatList, StyleSheet } from "react-native";
+import { trendingMovies } from "../../data";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { colors } from "../../constant";
+import Header from "../../components/home/header";
+
+const tabs = [
+  {
+    title: "All",
+    value: "all",
+  },
+  {
+    title: "Action",
+    value: "action",
+  },
+  {
+    title: "Comedy",
+    value: "comedy",
+  },
+  {
+    title: "Drama",
+    value: "drama",
+  },
+  {
+    title: "Horror",
+    value: "horror",
+  },
+  {
+    title: "Sci-Fi",
+    value: "sci-fi",
+  },
+];
 
 export default function App() {
+  const [active, setActive] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const routeToSearch = () => {
+    setSearchTerm("");
+    router.push(`/search`);
+  };
+
   return (
-    <View className="flex-1 items-center justify-center bg-primary">
-      <Text className="text-xl font-bold text-blue-500">
-        Welcome to Nativewind!
-      </Text>
-      <Link href="/profile" className="text-neutral">My Profile</Link>
-      <Link href="/search" className="text-neutral">Search</Link>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={trendingMovies}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <View className="border-b border-b-accent">
+            <Text className="text-neutral p-2 border-b-accent">
+              {item.title}
+            </Text>
+          </View>
+        )}
+        ListHeaderComponent={
+          <Header
+            tabs={tabs}
+            active={active}
+            setActive={setActive}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            routeToSearch={routeToSearch}
+          />
+        }
+      />
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.primary,
+  },
+});
