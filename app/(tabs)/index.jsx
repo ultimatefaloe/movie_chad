@@ -4,6 +4,7 @@ import { trendingMovies } from "../../data";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../../constant";
 import Header from "../../components/home/header";
+import { useRouter } from "expo-router";
 
 const tabs = [
   {
@@ -33,6 +34,7 @@ const tabs = [
 ];
 
 export default function App() {
+  const router  = useRouter()
   const [active, setActive] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
 
