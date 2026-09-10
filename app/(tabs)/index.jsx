@@ -44,7 +44,7 @@ export default function App() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <FlatList
         data={trendingMovies}
         keyExtractor={(item) => item.id.toString()}

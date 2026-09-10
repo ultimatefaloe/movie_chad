@@ -5,7 +5,7 @@ import { StatusBar } from "react-native";
 export default function RootLayout() {
   return (
     <>
-      <StatusBar barStyle="light-content" hidden={true} />
+      <StatusBar barStyle="light-content" hidden={false} />
       <Stack>
         <Stack.Screen
           name="(tabs)"
