@@ -1,14 +1,14 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 
 const Watchlist = () => {
   return (
-    <View className="flex-1 items-center justify-center bg-primary">
-      <Text className="text-xl font-bold text-blue-500">
-        Welcome to Watchlist!
-      </Text>
+    <View className="flex-1 items-center justify-center bg-background">
+      <Text className="text-2xl text-neutral text-center">Welcome to watchlist screen</Text>
     </View>
   );
-};
+}
+
+const styles = StyleSheet.create({})
 
 export default Watchlist;
