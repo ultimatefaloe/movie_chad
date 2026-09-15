@@ -4,6 +4,8 @@ import { trendingMovies } from "../../data";
 import SearchInput from "../ui/search-input";
 import { TabButton } from "../ui/tab-button";
 import TrendingMovieCard from "../movie/trending-movie-card";
+import EmptyState from "../ui/empty-state";
+import { icons } from "../../constant";
 
 const Header = ({
   tabs,
@@ -42,6 +44,13 @@ const Header = ({
           renderItem={({ item, index }) => (
             <TrendingMovieCard movie={item} index={index} />
           )}
+          ListEmptyComponent={
+            <EmptyState
+              title="No trending movies available"
+              description="Check back later for the latest trending movies."
+              icon={icons.empty}
+            />
+          }
           contentContainerClassName="gap-4 pb-2"
         />
       </View>

@@ -10,6 +10,7 @@ const TrendingMovieCard = ({ movie, index }) => {
   const router = useRouter();
   const rankNumber = (index + 1).toString();
 
+  console.log("Trending movie images", movie.poster_path);
   return (
     <Pressable
       className="gap-2 relative"
