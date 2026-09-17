@@ -36,28 +36,38 @@ const tabs = [
 
 const Index = () => {
   const router = useRouter();
-  const [active, setActive] = useState("all");
+  const [activeTab, setActiveTab] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
 
   const routeToSearch = () => {
     router.push("/search");
   };
 
-  
+  // assignment
+  // imporve ui rendering and perfomance
+  const filterMovies = movies.filter((movie) => {
+    if (activeTab === "all") {
+      return true;
+    }
+    const genreMatch = movie.genre
+      .map((g) => g.toLowerCase())
+      .includes(activeTab.toLowerCase());
+
+    return genreMatch;
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         // horizontal={true}
-        data={movies}
+        data={filterMovies}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <MovieCard movie={item} />
-        )}
+        renderItem={({ item }) => <MovieCard movie={item} />}
         ListHeaderComponent={
           <Header
             tabs={tabs}
-            active={active}
-            setActive={setActive}
+            active={activeTab}
+            setActive={setActiveTab}
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
             routeToSearch={routeToSearch}
