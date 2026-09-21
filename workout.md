@@ -1,0 +1,3 @@
+- update index screen
+- search bar on index screen to pass search term as params
+- search initial state for empty search

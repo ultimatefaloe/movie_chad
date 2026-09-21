@@ -27,7 +27,7 @@ const Header = ({
           initialValue={searchTerm}
           onSearch={setSearchTerm}
           onSubmit={routeToSearch}
-          editable={false} // Add this prop
+          editable={true} // Add this prop
         />
       </Pressable>
 
