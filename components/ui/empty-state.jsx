@@ -14,10 +14,10 @@ const EmptyState = ({title, description, icon}) => {
           resizeMode="cover"
         />
       </View>
-      <Text className="text-neutral text-2xl font-bold">
+      <Text className="text-neutral text-2xl font-bold text-center">
         {title}
       </Text>
-      <Text className="text-light-secondary text-base">
+      <Text className="text-light-secondary text-base text-center">
         {description}
       </Text>
     </View>
