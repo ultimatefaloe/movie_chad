@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, FlatList, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../../constant";
 import Header from "../../components/home/header";
 import { useRouter } from "expo-router";
 import { movies } from "../../data";
 import MovieCard from "../../components/movie/movie-card";
+import EmptyState from "@/components/ui/empty-state";
 
 const tabs = [
   {
@@ -36,31 +37,38 @@ const tabs = [
 
 const Index = () => {
   const router = useRouter();
+  const [stateMovies, setStateMovies] = useState(movies);
   const [activeTab, setActiveTab] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
 
   const routeToSearch = () => {
-    router.push("/search");
+    router.push("/search?searchTerm=" + encodeURIComponent(searchTerm));
+    setSearchTerm("");
   };
 
-  // assignment
-  // imporve ui rendering and perfomance
-  const filterMovies = movies.filter((movie) => {
-    if (activeTab === "all") {
-      return true;
-    }
-    const genreMatch = movie.genre
-      .map((g) => g.toLowerCase())
-      .includes(activeTab.toLowerCase());
+  const filterFn = (movies) => {
+    const filterMovies = movies.filter((movie) => {
+      if (activeTab === "all") {
+        return true;
+      }
+      const genreMatch = movie.genre
+        .map((g) => g.toLowerCase())
+        .includes(activeTab.toLowerCase());
 
-    return genreMatch;
-  });
+      return genreMatch;
+    });
+    setStateMovies(filterMovies);
+  };
+
+  useEffect(() => {
+    filterFn(movies);
+  }, [activeTab]);
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         // horizontal={true}
-        data={filterMovies}
+        data={stateMovies}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <MovieCard movie={item} />}
         ListHeaderComponent={
@@ -69,15 +77,17 @@ const Index = () => {
             active={activeTab}
             setActive={setActiveTab}
             searchTerm={searchTerm}
+            onClear={() => setSearchTerm("")}
             setSearchTerm={setSearchTerm}
             routeToSearch={routeToSearch}
           />
         }
         ListEmptyComponent={
           <View className="p-4">
-            <Text className="text-lg font-bold text-neutral">
-              No movie available
-            </Text>
+            <EmptyState
+              title={"No movie found"}
+              description={"There is no movie matching your criteria."}
+            />
           </View>
         }
         numColumns={3}

@@ -12,6 +12,7 @@ const Header = ({
   active,
   setActive,
   searchTerm,
+  onClear,
   setSearchTerm,
   routeToSearch,
 }) => {
@@ -22,14 +23,15 @@ const Header = ({
       </Text>
 
       {/* Search Input Input */}
-      <Pressable onPress={routeToSearch} className="mt-4 relative">
         <SearchInput
           initialValue={searchTerm}
           onSearch={setSearchTerm}
           onSubmit={routeToSearch}
+          onClear={onClear}
           editable={true} // Add this prop
         />
-      </Pressable>
+      {/* <Pressable onPress={routeToSearch} className="mt-4 relative">
+      </Pressable> */}
 
       {/* Horizontal Carousel Section 1 */}
       <View className="pt-2">

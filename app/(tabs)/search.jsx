@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -10,17 +10,24 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { icons, colors } from "../../constant";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { movies } from "../../data";
 import SearchInput from "@/components/ui/search-input";
 import InlineMovieCard from "@/components/movie/inline-movie-card";
 import EmptyState from "@/components/ui/empty-state";
 
 const Search = () => {
+  const router = useRouter();
+  const searchParams = useLocalSearchParams();
+  const { searchTerm: params } = searchParams;
   const [searchTerm, setSearchTerm] = useState("");
   const [searchMovies, setSearchmovies] = useState([]);
 
-  const router = useRouter();
+
+  // auto search on redirection
+  useEffect(() => {
+    setSearchTerm(params)
+  }, [params]);
 
   const handleBackPress = () => {
     router.back();
