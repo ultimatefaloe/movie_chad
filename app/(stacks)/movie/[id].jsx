@@ -1,14 +1,29 @@
 import React, { useState } from "react";
 import { icons } from "../../../constant";
-import { Image, ScrollView, Text, View } from "react-native";
+import { FlatList, Image, ScrollView, Text, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { movieDetail } from "../../../data/movies";
+import { movieDetail, casts, reviews } from "../../../data";
 import EmptyState from "../../../components/ui/empty-state";
+import { TabButton } from "../../../components/ui/tab-button";
+import ReviewCard from "../../../components/movie-detail/review-card";
 
-// const tabs = 'about' |  'reviews' | 'cast';
+const tabs = [
+  {
+    title: "About Movie",
+    value: "about",
+  },
+  {
+    title: "Reviews",
+    value: "reviews",
+  },
+  {
+    title: "Cast",
+    value: "cast",
+  },
+];
 
 const MovieDetail = () => {
-  const [ activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState("about");
   const { id } = useLocalSearchParams();
 
   const movie = movieDetail(id);
@@ -23,7 +38,6 @@ const MovieDetail = () => {
     );
   }
 
-  
   return (
     <ScrollView className="flex-1 relative bg-primary">
       {/* header poster background */}
@@ -41,47 +55,83 @@ const MovieDetail = () => {
           <Text className="text-tint font-semibold">{movie.vote_average}</Text>
         </View>
       </View>
-
       {/* title */}
       <View className="relative flex-row items-center gap-2 mt-5 ml-5">
         <Text className="text-neutral text-2xl font-bold mt-5 ml-5 absolute left-32">
           {movie.title}
         </Text>
       </View>
-
       {/* info */}
-      <View className="items-center mt-18 ">
-        <View className="flex-row items-center gap-5 mt-5 ml-5">
-          <View>
-            <Image
-              source={icons.calendar}
-              className="w-5 h-5 absolute top-2 left-5"
-            />
-            <Text className="text-light-secondary text-base font-semibold mt-2 ml-10">
-              {movie.release_date}
-            </Text>
-          </View>
-          <View>
-            <Image
-              source={icons.duration}
-              className="w-5 h-5 absolute top-2 left-5"
-            />
-            <Text className="text-light-secondary text-base font-semibold mt-2 ml-10">
-              {movie.runtime} min
-            </Text>
-          </View>
-        </View>
-
-        <View>
+      <View className="flex-row items-center justify-center gap-2 mt-25">
+        <View className="flex-row items-center gap-2">
           <Image
-            source={icons.action}
+            source={icons.calendar}
             className="w-5 h-5 absolute top-2 left-5"
           />
           <Text className="text-light-secondary text-base font-semibold mt-2 ml-10">
-            {movie.genre.join(", ")}
+            {movie.release_date}
+          </Text>
+        </View>
+        <View className="flex-row items-center gap-2">
+          <Image
+            source={icons.clock}
+            className="w-5 h-5 absolute top-2 left-5"
+          />
+          <Text className="text-light-secondary text-base font-semibold mt-2 ml-10">
+            {movie.runtime} min
+          </Text>
+        </View>
+
+        <View className="flex-row items-center gap-2">
+          <Image
+            source={icons.ticket}
+            className="w-5 h-5 absolute top-2 left-5"
+          />
+          <Text className="text-light-secondary text-base font-semibold mt-2 ml-10">
+            {movie.genre[0]}
           </Text>
         </View>
       </View>
+
+      {/* tabs */}
+      {/* tabs trigger */}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerClassName="gap-2 mt-4"
+      >
+        {tabs.map((tab) => (
+          <TabButton
+            title={tab.title}
+            value={tab.value}
+            activeTab={activeTab}
+            onPress={() => setActiveTab(tab.value)}
+          />
+        ))}
+      </ScrollView>
+
+      {/* tabs content */}
+      {activeTab === "about" && (
+        <View className="p-4">
+          <Text className="text-light-secondary font-semibold">
+            {movie.overview}
+          </Text>
+        </View>
+      )}
+      {activeTab === "reviews" && (
+        <View className="p-4">
+          {reviews.map((review) => (
+            <ReviewCard key={review.id} data={review} />
+          ))}
+        </View>
+      )}
+      {activeTab === "cast" && (
+        <View className="p-4">
+          <Text className="text-neutral font-semibold">
+            Cast content goes here.
+          </Text>
+        </View>
+      )}
     </ScrollView>
   );
 };

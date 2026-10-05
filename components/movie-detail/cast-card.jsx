@@ -3,8 +3,9 @@ import { View, Text, Image } from "react-native";
 import { avatars } from "../../constant";
 
 
-const CastCard = (props) => {
-  const { image, name, role } = props.cast;
+
+const CastCard = ({ cast }) => {
+  const { image, name, role } = cast;
   return (
     <View className="justify-center items-center">
       <Image

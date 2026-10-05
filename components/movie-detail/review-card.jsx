@@ -2,8 +2,8 @@ import React from "react";
 import { View, Text, Image } from "react-native";
 import { icons } from "../../constant";
 
-const ReviewCard = (data) => {
-  const { icon, name, review, rating } = data.review;
+const ReviewCard = ({data}) => {
+  const { icon, name, review, rating } = data;
   return (
     <View className="flex-row items-start gap-4 mb-4">
       <View>
