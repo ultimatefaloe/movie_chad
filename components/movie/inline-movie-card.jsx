@@ -1,22 +1,12 @@
 import React from "react";
-import {
-  Image,
-  View,
-  Text,
-  Pressable,
-  Dimensions,
-} from "react-native";
+import { Image, View, Text, Pressable, Dimensions } from "react-native";
 import { icons, images } from "../../constant";
 import { useRouter } from "expo-router";
-
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width * 0.25; // Smaller size for regular movie cards
 
-const InlineMovieCard = ({
-  movie,
-  watchlisted = false,
-}) => {
+const InlineMovieCard = ({ movie, watchlisted = false }) => {
   const router = useRouter();
   const { id, title, poster_path, genre, runtime, release_date, vote_average } =
     movie;
@@ -61,11 +51,13 @@ const InlineMovieCard = ({
             </Text>
           </View>
         </View>
-        {/* {watchlisted && (
+        {watchlisted && (
           <TouchableOpacity
             className="rounded-full flex-row items-center gap-1"
             onPress={async () => {
-              await removeFromWatchlist(id.toString());
+              console.log(id,  "of movie to be deleted")
+              // create a hanoder or make use of inline-arrow function
+              // await removeFromWatchlist(id.toString());
             }}
           >
             <Image source={icons.delete} className="h-4 w-4" />
@@ -73,7 +65,7 @@ const InlineMovieCard = ({
               Remove from Watchlist
             </Text>
           </TouchableOpacity>
-        )} */}
+        )}
       </View>
     </Pressable>
   );

@@ -6,6 +6,7 @@ import { movieDetail, casts, reviews } from "../../../data";
 import EmptyState from "../../../components/ui/empty-state";
 import { TabButton } from "../../../components/ui/tab-button";
 import ReviewCard from "../../../components/movie-detail/review-card";
+import CastCard from "@/components/movie-detail/cast-card";
 
 const tabs = [
   {
@@ -98,10 +99,11 @@ const MovieDetail = () => {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerClassName="gap-2 mt-4"
+        contentContainerClassName="gap-2 mt-4 justify-center items-center"
       >
         {tabs.map((tab) => (
           <TabButton
+            key={tab.value}
             title={tab.title}
             value={tab.value}
             activeTab={activeTab}
@@ -120,6 +122,7 @@ const MovieDetail = () => {
       )}
       {activeTab === "reviews" && (
         <View className="p-4">
+          <Text className="text-light-secondary font-semibold">Reviews</Text>
           {reviews.map((review) => (
             <ReviewCard key={review.id} data={review} />
           ))}
@@ -127,9 +130,12 @@ const MovieDetail = () => {
       )}
       {activeTab === "cast" && (
         <View className="p-4">
-          <Text className="text-neutral font-semibold">
-            Cast content goes here.
-          </Text>
+          <Text className="text-light-secondary font-semibold">Cast</Text>
+          <View className="flex-row flex-wrap justify-evenly gap-4 mt-4">
+            {casts.map((cast) => (
+              <CastCard key={cast.name} cast={cast} />
+            ))}
+          </View>
         </View>
       )}
     </ScrollView>
