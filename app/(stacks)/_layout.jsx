@@ -3,10 +3,10 @@ import React from "react";
 import { TouchableOpacity, Image, StyleSheet } from "react-native";
 import { icons, colors } from "../../constant";
 import { movieDetail } from "../../data";
-import { useWatchList } from "@/hooks/useWatchlist.hook";
+import { useWatchListContext } from "../../context/WatchlistContext";
 
 const StacksLayout = () => {
-  const { addWatchlist } = useWatchList();
+  const { addWatchlist } = useWatchListContext();
   const handleSaveToWatchlist = async (data) => {
     console.log(data)
     await addWatchlist(data);

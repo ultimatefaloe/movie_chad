@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { getData, saveData, clearData } from "../utils/async-storage";
 
-export const useWatchList = () => {
+const WatchlistContext = createContext();
+
+export const WatchListProvider = ({ children }) => {
   const [watchlist, setWatchlist] = useState([]);
 
   const fetchWatchLists = async () => {
@@ -23,6 +25,7 @@ export const useWatchList = () => {
 
   const addWatchlist = async (data) => {
     try {
+      console.log("Adding to watchlist:", data);
       if (!data) return "No data provided";
       const updatedWatchlist = [data, ...watchlist];
       await saveData(updatedWatchlist);
@@ -67,12 +70,29 @@ export const useWatchList = () => {
     }
   };
 
-  return {
-    watchlist,
-    addWatchlist,
-    fetchWatchLists,
-    clearWatchlist,
-    removeWatchlist,
-    refreshWatchlist: refresh,
-  };
+
+  return (
+    <WatchlistContext.Provider
+      value={{
+        watchlist,
+        addWatchlist,
+        fetchWatchLists,
+        clearWatchlist,
+        removeWatchlist,
+        refreshWatchlist: refresh,
+      }}
+    >
+      {children}
+    </WatchlistContext.Provider>
+  );
+};
+
+export const useWatchListContext = () => {
+  const context = useContext(WatchlistContext);
+  if (!context) {
+    throw new Error(
+      "useWatchlistContext must be used within a WatchListProvider",
+    );
+  }
+  return context;
 };
